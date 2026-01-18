@@ -4,6 +4,9 @@ An MCP server that gives AI assistants the ability to train and run [TabPFN](htt
 
 This server uses [tabpfn-client](https://github.com/PriorLabs/tabpfn-client) to call the TabPFN API; no model training or inference is performed locally.
 
+> Please note that server-side, remote training and inference is performed when calling the TabPFN API using their client. This involves data transfer to Prior Labs' servers. Refer to [TabPFN's privacy policy](https://priorlabs.github.io/TabPFN/privacy_policy.html) for details. See this [note](https://github.com/PriorLabs/tabpfn-client?tab=readme-ov-file#-stable-release:~:text=This%20is%20a,your%20organization%E2%80%99s%20policies.) in the TabPFN client README regarding data privacy and compliance.
+
+
 ## What it does
 
 This server exposes two tools to MCP-compatible AI assistants:
@@ -53,7 +56,7 @@ claude mcp add tabpfn-mcp -- uv run tabpfn-mcp
 
 ### Claude Desktop
 
-Edit `~/.config/Claude/claude_desktop_config.json` (Linux/macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+Add the following to your `claude_desktop_config.json` file. The path to this file can be found in Claude Desktop under Settings > Developer > Local MCP servers > Edit Config.
 
 ```json
 {
@@ -96,3 +99,7 @@ uv run pre-commit install
 # Run tests
 uv run pytest
 ```
+
+## Disclaimer
+
+This MCP server is a client wrapper only. All data processing, training, and inference is performed by Prior Labs' TabPFN API on their servers. As the developer of this MCP server, I assume no responsibility for how data is handled, processed, or stored by the TabPFN service. Users must review and accept [TabPFN's privacy policy](https://priorlabs.ai/privacy-policy) and terms of service.
