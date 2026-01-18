@@ -213,7 +213,7 @@ def _parse_test_data(
 def train_and_predict_regression(
     training_csv_path: str,
     output_csv_path: str,
-    test_csv_path: str | None = None,
+    test_csv_path: str,
 ) -> dict[str, Any]:
     """
     Train a TabPFN regressor on training data and make predictions.
@@ -221,7 +221,7 @@ def train_and_predict_regression(
     Args:
         training_csv_path: Path to CSV file with training data. Last column should be y values.
         output_csv_path: Path to write predictions to CSV.
-        test_csv_path: Optional path to CSV file with test data. The function automatically
+        test_csv_path: Path to CSV file with test data. The function automatically
                       detects whether test data has labels by comparing the number of columns
                       with the training data.
 
@@ -246,10 +246,6 @@ def train_and_predict_regression(
             "training_targets_mean": float(np.mean(y_train_array)),
             "training_targets_std": float(np.std(y_train_array)),
         }
-
-        if not test_csv_path:
-            response["message"] = "No test data provided. Only training completed."
-            return response
 
         # Parse test data
         result = _parse_test_data(test_csv_path, n_train_features, dtype=np.float32)
@@ -288,7 +284,7 @@ def train_and_predict_regression(
 def train_and_predict_classification(
     training_csv_path: str,
     output_csv_path: str,
-    test_csv_path: str | None = None,
+    test_csv_path: str,
 ) -> dict[str, Any]:
     """
     Train a TabPFN classifier on training data and make predictions.
@@ -296,7 +292,7 @@ def train_and_predict_classification(
     Args:
         training_csv_path: Path to CSV file with training data. Last column should be class labels.
         output_csv_path: Path to write predictions to CSV.
-        test_csv_path: Optional path to CSV file with test data. The function automatically
+        test_csv_path: Path to CSV file with test data. The function automatically
                       detects whether test data has labels by comparing the number of columns
                       with the training data.
 
@@ -324,10 +320,6 @@ def train_and_predict_classification(
             "n_classes": n_classes,
             "classes": unique_classes,
         }
-
-        if not test_csv_path:
-            response["message"] = "No test data provided. Only training completed."
-            return response
 
         # Parse test data
         result = _parse_test_data(test_csv_path, n_train_features, dtype=np.int32)
